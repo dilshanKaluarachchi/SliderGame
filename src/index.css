@@ -1,0 +1,30 @@
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Verdana, sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 5em;
+  text-align: center;
+  margin: 0 0 50px 0;
+}
+
+.btn {
+  padding: 10px;
+  border-radius: 5px;
+  background: dodgerblue;
+  color: #ffffff;
+  text-transform: uppercase;
+  width: 100%;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
+}
