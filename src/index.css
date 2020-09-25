@@ -17,6 +17,12 @@ h1 {
   margin: 0 0 50px 0;
 }
 
+h2 {
+  font-size: 1em;
+  text-align: center;
+  margin: 0 0 50px 0;
+}
+
 .btn {
   padding: 10px;
   border-radius: 5px;

@@ -30,6 +30,8 @@ const boxes = [{
 }];
 
 const getBoxPos = (b) => {
+    // This gives x, y positions
+
     const box = document.getElementById(`box${b}`);
     if (!box) return;
     const boxY = box.offsetTop;
@@ -41,17 +43,22 @@ const getBoxPos = (b) => {
 };
 
 const getScore = (time, setTime) => {
+    // This method gives scores according to the time player took to make a move
+
     const now = performance.now();
     const dif = now - time;
-    let t;
+    let score;
 
-    if (dif < 1200) {
-        t = 5;
-    } else if (dif > 1200) {
-        t = 2;
+    if (dif < 1000) {
+        score = 2;
+    } else if (1000 <= dif && dif < 2000) {
+        score = 4;
+    } else {
+        score = 6;
     }
+
     setTime(performance.now());
-    return t;
+    return score;
 };
 
 const Game = () => {
@@ -85,6 +92,8 @@ const Game = () => {
     };
 
     const movePlayer = (b) => {
+        // This moves the player
+
         const boxPos = getBoxPos(b);
         setPlayer({
             box: player.box + 1,
@@ -93,9 +102,22 @@ const Game = () => {
         });
     };
 
-    const reset = () => {
+    const resetGame = () => {
+        // This resets the game; sets the score to 0 and moves the player to first box
+
         const boxPos = getBoxPos(0);
         setScore(0);
+        setPlayer({
+            box: 1,
+            y: boxPos.y,
+            x: boxPos.x,
+        });
+    };
+
+    const resetRound = () => {
+        // This resets the round; moves the player to first box
+
+        const boxPos = getBoxPos(0);
         setPlayer({
             box: 1,
             y: boxPos.y,
@@ -106,29 +128,27 @@ const Game = () => {
     const go = () => {
         if (player.box === boxes.length) {
             setFinal(score);
-            return reset();
+            return resetGame();
         }
 
         // Check whether the curser position is close to the middle of the slider
         const ok1 = position < (sliderWidth / 2 + hardness);
         const ok2 = position > (sliderWidth / 2 - hardness);
 
-
-        // const fail1 = position > (sliderWidth - hardness) && position < (sliderWidth);
-        // const fail2 = position > 1 && position < (sliderWidth - position);
-
+        // If the curser position is close to the middle of the slider, move the player and increase the score accordingly
+        // Else, reset the game
         if (ok1 && ok2) {
             const sc = getScore(time, setTime);
             setScore(score + sc);
             movePlayer(player.box);
         } else {
-            reset();
+            resetRound();
         }
     };
 
     useEffect(() => {
         runSlider(position);
-        reset();
+        resetGame();
     }, []);
 
     return (
